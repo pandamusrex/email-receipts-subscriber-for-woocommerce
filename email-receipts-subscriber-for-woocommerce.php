@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Plugin Name: Email Receipts Subscriber for WooCommerce
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
