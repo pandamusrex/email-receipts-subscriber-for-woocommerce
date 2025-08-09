@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class PandamusRex_Email_Receipts_Subscriber_for_WooCommerce {
     private static $instance;
 
-    private static $rest_controller;
+    private $rest_controller;
 
     public static function get_instance() {
         if ( null == self::$instance ) {
