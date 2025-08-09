@@ -11,8 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class PandamusRex_Email_Receipts_Subscriber_for_WooCommerce {
     private static $instance;
 
-    private $rest_controller;
-
     public static function get_instance() {
         if ( null == self::$instance ) {
             self::$instance = new self();
@@ -30,7 +28,8 @@ class PandamusRex_Email_Receipts_Subscriber_for_WooCommerce {
 
     public function rest_api_init() {
         require_once( plugin_dir_path(__FILE__) . 'includes/rest-controller.php' );
-        $this->rest_controller = new PandamusRex_Email_Receipts_Rest_Controller();
+        $rest_controller = new PandamusRex_Email_Receipts_Rest_Controller();
+        $rest_controller->register_routes();
     }
 }
 
