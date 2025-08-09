@@ -29,9 +29,12 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
                     'name'          => __('Email Notifications', 'textdomain'),
                     'singular_name' => __('Email Notification', 'textdomain'),
                 ),
-                'public'       => false,
-                'has_archive'  => false,
-                'show_in_menu' => true,
+                'public'              => false,
+                'publicly_queryable'  => false,
+                'exclude_from_search' => true,
+                'has_archive'         => false,
+                'show_ui'             => true,
+                'show_in_menu'        => true,
             )
 	    );
     }
