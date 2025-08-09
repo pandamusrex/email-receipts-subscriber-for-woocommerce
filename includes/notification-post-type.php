@@ -25,12 +25,13 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
     public function init() {
         register_post_type( 'pandamusrex_mailnote',
             array(
-                'labels'        => array(
+                'labels'       => array(
                     'name'          => __('Email Notifications', 'textdomain'),
                     'singular_name' => __('Email Notification', 'textdomain'),
                 ),
-                'public'      => false,
-                'has_archive' => false,
+                'public'       => false,
+                'has_archive'  => false,
+                'show_in_menu' => true,
             )
 	    );
     }
