@@ -6,9 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class PandamusRex_Email_Receipts_Rest_Controller extends \WP_REST_Controller {
 
-    protected $namespace = 'persfc/v1';
-
-    protected $rest_base = 'receipts-subscriber';
+    protected $namespace = 'pandamusrex/v1';
+    protected $rest_base = 'email-receipts-subscriber';
 
     public function register_routes() {
         register_rest_route(
