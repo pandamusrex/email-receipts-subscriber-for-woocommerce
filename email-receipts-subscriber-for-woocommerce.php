@@ -24,6 +24,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+include_once( plugin_dir_path(__FILE__) . 'includes/notification-post-type.php' );
+
 class PandamusRex_Email_Receipts_Subscriber_for_WooCommerce {
     private static $instance;
 
