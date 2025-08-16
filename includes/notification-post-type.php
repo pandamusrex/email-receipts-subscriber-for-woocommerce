@@ -93,7 +93,9 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
     public function related_order_history_meta_box( $post ) {
         echo "<p>History goes here</p>";
 
-        $comments = get_comments( $post->ID );
+        $comments = get_comments( [
+            'post_id' => $post->ID
+        ] );
 
         echo "<ul>";
 
