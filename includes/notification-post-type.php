@@ -41,14 +41,43 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
     }
 
     public function add_meta_boxes() {
-        add_meta_box( 'pmts_wbhk_lstn_sectionid', __( 'Related Order' ), [ $this, 'meta_box' ], 'pandamusrex_mailnote', 'side', 'high' );
+        add_meta_box( 'pmts_wbhk_lstn_sectionid', __( 'Related Order' ), [ $this, 'meta_box' ], 'pandamusrex_mailnote', 'normal', 'high' );
     }
 
     public function meta_box( $post) {
         $linked_order_ID = get_post_meta( $post->ID, '_linked_order_id', true );
         if ( empty( $linked_order_ID ) ) {
-            echo "<p>Choose an order to link this payment to:";
-            echo "</p>";
+            // Get all on-hold orders, if any
+            $on_hold_orders = wc_get_orders( array(
+                'status' => 'on-hold',
+                'limit'  => -1, // Retrieve all on-hold orders
+            ) );
+
+            if ( $on_hold_orders ) {
+                echo "<p>Choose an on-hold order to link to:";
+
+                echo "<select>";
+                foreach ( $on_hold_orders as $order ) {
+                    $order_id = $order->get_id();
+                    $order_user = $order->get_user();
+                    $user_name = "Guest";
+                    if ( $order_user ) {
+                        $user_name = $order_user->user_nicename;
+                    }
+                    $order_total = $order->get_total();
+                    echo "<option value='" . esc_attr( $order_id ) . "'>";
+                    $option_text = "#" . $order_id . ' - ' . $user_name . ' - ' . $order_total;
+                    echo esc_html( $option_text );
+                    echo "</option>";
+                }
+                echo "</select>";
+
+                echo "</p>";
+            }
+            else
+            {
+                echo "<p>There are no on-hold orders to choose from</p>";
+            }
         } else {
             echo "<p>Linked order: ";
             echo get_edit_post_link( $post );
