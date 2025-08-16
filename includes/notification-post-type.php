@@ -36,6 +36,7 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
                 'has_archive'         => false,
                 'show_ui'             => true,
                 'show_in_menu'        => true,
+                'supports'            => array( 'title', 'editor', 'comments' )
             )
 	    );
     }
@@ -91,6 +92,28 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
 
     public function related_order_history_meta_box( $post ) {
         echo "<p>History goes here</p>";
+
+        $comments = get_comments( $post->ID );
+
+        echo "<ul>";
+
+        if ( $comments ) {
+            foreach ( $comments as $comment ) {
+                $comment_date = comment_date( '', $comment->ID );
+                $comment_content = $comment->content;
+                echo "<li>";
+                echo esc_html( $commment_date . " : " . $comment_content );
+                echo "</li>";
+            }
+        }
+
+        $notification_creation_date = post_date( '', $post );
+        echo "<li>";
+        echo esc_html( $notification_creation_date . " : Notification received" );
+        echo "</li>";
+
+        echo "</ul>";
+
     }
 }
 
