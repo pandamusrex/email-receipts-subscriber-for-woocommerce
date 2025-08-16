@@ -41,10 +41,11 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
     }
 
     public function add_meta_boxes() {
-        add_meta_box( 'pmts_wbhk_lstn_sectionid', __( 'Related Order' ), [ $this, 'meta_box' ], 'pandamusrex_mailnote', 'normal', 'high' );
+        add_meta_box( 'pmts_wbhk_lstn_sectionid', __( 'Related Order' ), [ $this, 'related_order_meta_box' ], 'pandamusrex_mailnote', 'normal', 'high' );
+        add_meta_box( 'pmts_wbhk_lstn_hist_sectionid', __( 'Related Order History' ), [ $this, 'related_order_history_meta_box' ], 'pandamusrex_mailnote', 'normal', 'high' );
     }
 
-    public function meta_box( $post) {
+    public function related_order_meta_box( $post) {
         $linked_order_ID = get_post_meta( $post->ID, '_linked_order_id', true );
         if ( empty( $linked_order_ID ) ) {
             // Get all on-hold orders, if any
@@ -57,6 +58,7 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
                 echo "<p>Choose an on-hold order to link to:";
 
                 echo "<select>";
+
                 foreach ( $on_hold_orders as $order ) {
                     $order_id = $order->get_id();
                     $order_user = $order->get_user();
@@ -85,6 +87,10 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
             echo "<a href='#'>Unlink</a>";
             echo "</p>";
         }
+    }
+
+    public function related_order_history_meta_box( $post ) {
+        echo "<p>History goes here</p>";
     }
 }
 
