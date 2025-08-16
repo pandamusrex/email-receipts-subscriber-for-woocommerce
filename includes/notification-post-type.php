@@ -107,7 +107,7 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
             }
         }
 
-        $notification_creation_date = post_date( '', $post );
+        $notification_creation_date = get_the_date( '', $post );
         echo "<li>";
         echo esc_html( $notification_creation_date . " : Notification received" );
         echo "</li>";
