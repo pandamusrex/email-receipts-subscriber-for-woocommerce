@@ -41,7 +41,7 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
     }
 
     public function add_meta_boxes() {
-        add_meta_box( 'pmts_wbhk_lstn_sectionid', __( 'Related Order' ), [ $this, 'meta_box' ], 'post', 'side', 'high' );
+        add_meta_box( 'pmts_wbhk_lstn_sectionid', __( 'Related Order' ), [ $this, 'meta_box' ], 'pandamusrex_mailnote', 'side', 'high' );
     }
 
     public function meta_box( $post) {
