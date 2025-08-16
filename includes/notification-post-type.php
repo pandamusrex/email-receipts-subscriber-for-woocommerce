@@ -99,7 +99,7 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
 
         if ( $comments ) {
             foreach ( $comments as $comment ) {
-                $comment_id = $comment->get_comment_ID();
+                $comment_id = $comment->comment_ID;
                 $comment_datetime = get_comment_date( '', $comment ) . ' ' . get_comment_time( '', false, true, $comment_id );
                 $comment_content = $comment->content;
                 echo "<li>";
