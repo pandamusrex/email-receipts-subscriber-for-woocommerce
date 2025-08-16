@@ -1,0 +1,22 @@
+{
+    "name": "allyndawn/email-receipts-subscriber-for-woocommerce",
+    "type": "wordpress-plugin",
+    "require": {
+        "google/cloud-pubsub": "^2.13"
+    },
+    "require-dev": {
+        "google/cloud-pubsub": "^2.13"
+    },
+    "license": "GPL-2.0-only",
+    "autoload": {
+        "psr-4": {
+            "Allyndawn\\EmailReceiptsSubscriberForWoocommerce\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "pandamusrex",
+            "email": "pandamusrex@gmail.com"
+        }
+    ]
+}
