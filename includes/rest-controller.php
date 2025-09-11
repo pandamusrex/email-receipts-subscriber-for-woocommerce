@@ -37,8 +37,11 @@ class PandamusRex_Email_Webhooks_Rest_Controller extends \WP_REST_Controller {
     }
 
     public function post_email( $request ) {
-
         $body = wp_kses_post( $request->get_body() );
+
+        if ( function_exists( 'wc_get_logger' ) ) {
+            wc_get_logger()->debug( $body );
+        }
 
         // $id = wp_insert_post( array(
         //     'post_title'  => 'random',

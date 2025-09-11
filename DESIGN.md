@@ -6,7 +6,7 @@
 - [x] Rename webhook to webhooks (plural)
 - [x] Comment out old post type code
 - [x] Create tables
-- [ ] Create persistence layer for each table
+- [x] Create persistence layer for each table
 - [ ] Allow no-auth POST endpoint writing of email to table
 - [ ] Create email list view like memberships
 - [ ] Create single email view (read only)
