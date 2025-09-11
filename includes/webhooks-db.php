@@ -17,7 +17,6 @@ class PandamusRex_Email_Webhooks_Db {
 
         $sql = "CREATE TABLE $table_name (
             id BIGINT(20) NOT NULL AUTO_INCREMENT,
-            webhook_received DATETIME NOT NULL,
             email_subject VARCHAR(255) NOT NULL,
             email_received DATETIME NOT NULL,
             email_sender VARCHAR(255) NOT NULL,
@@ -28,5 +27,100 @@ class PandamusRex_Email_Webhooks_Db {
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' ); // Include dbDelta()
         dbDelta( $sql );
+    }
+
+    public static function record_webhook( $email_subject, $email_received, $email_sender, $email_body ) {
+        global $wpdb;
+
+        $data = [
+            'email_subject' => $email_subject,
+            'email_received' => $email_received,
+            'email_sender' => $email_sender,
+            'email_body' => $email_body,
+            'order_id' => 0 // needs assignment
+        ];
+
+        $result = $wpdb->insert(
+            self::getTableName(),
+            $data,
+            [
+                '%s',
+                '%s',
+                '%s',
+                '%s',
+                '%d'
+            ]
+        );
+        if ( false === $result ) {
+            return new WP_Error( 'pandamusrex-email-webhooks', $wpdb->last_error );
+        }
+
+        $data[ 'id' ] = $wpdb->insert_id;
+
+        PandamusRex_Email_Webhooks_History_Db::add_history_for_webhook(
+            $data[ 'id' ],
+            0,
+            __( 'Email added to database', 'pandamusrex-email-webhooks' )
+        );
+
+        return $data;
+    }
+
+    public static function update_webhook_order_id( $webhook_id, $order_id ) {
+        global $wpdb;
+
+        $data = [
+            'order_id' => $order_id
+        ];
+
+        $result = $wpdb->update(
+            self::getTableName(),
+            $data, // data
+            [
+                'id' => $webhook_id // where
+            ],
+            [
+                '%d' // data format
+            ],
+            [
+                '%d' // where format
+            ]
+        );
+
+        if ( false === $result ) {
+            return new WP_Error( 'pandamusrex-email-webhooks', $wpdb->last_error );
+        }
+
+        $note = sprintf(
+            __( 'Updated order ID to %d', 'pandamusrex-email-webhooks' ),
+            $order_id
+        );
+        PandamusRex_Email_Webhooks_History_Db::add_history_for_webhook(
+            $data[ 'id' ],
+            0,
+            $note
+        );
+
+        return true;
+    }
+
+    public static function delete_webhook( $webhook_id ) {
+        global $wpdb;
+
+        $result = $wpdb->delete(
+            self::getTableName(),
+            [
+                'id' => $webhook_id
+            ],
+            [
+                '%d'
+            ]
+        );
+
+        if ( false === $result ) {
+            return new WP_Error( 'pandamusrex-email-webhooks', $wpdb->last_error );
+        }
+
+        return true;
     }
 }
