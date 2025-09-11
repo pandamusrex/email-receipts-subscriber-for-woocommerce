@@ -1,4 +1,4 @@
-=== PandamusRex Email Webhook for WooCommerce ===
+=== PandamusRex Email Webhooks for WooCommerce ===
 Contributors: pandamusrex
 Donate link: https://pandamusrex.com/
 Tags: woocommerce
