@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class PandamusRex_Email_Receipts_Notification_Post_Type {
+class PandamusRex_Email_Webhook_Notification_Post_Type {
     private static $instance;
 
     public static function get_instance() {
@@ -121,4 +121,4 @@ class PandamusRex_Email_Receipts_Notification_Post_Type {
     }
 }
 
-PandamusRex_Email_Receipts_Notification_Post_Type::get_instance();
+PandamusRex_Email_Webhook_Notification_Post_Type::get_instance();

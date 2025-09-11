@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name: Email Receipts Subscriber for WooCommerce
- * Version: 1.0.0
- * Plugin URI: https://github.com/pandamusrex/email-receipts-subscriber-for-woocommerce
- * Description: Integrate your Gmail inbox to WooCommerce with Google Cloud Pub/Sub to match payment receipts to orders.
+ * Plugin Name: PandamusRex Email Webhook for WooCommerce
+ * Version: 1.1.0
+ * Plugin URI: https://github.com/pandamusrex/pandamusrex-email-webhook-for-woocommerce
+ * Description: Assign payment receipt emails and complete orders with a webhook that connects your email to WooCommerce.
  * Author: PandamusRex
  * Author URI: https://www.github.com/pandamusrex/
  * License: GPL v2 or later
@@ -12,7 +12,7 @@
  * Requires at least: 6.4
  * Tested up to: 6.8
  *
- * Text Domain: email-receipts-subscriber-for-woocommerce
+ * Text Domain: pandamusrex-email-webhook-for-woocommerce
  * Domain Path: /lang/
  *
  * @package WordPress
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 include_once( plugin_dir_path(__FILE__) . 'includes/notification-post-type.php' );
 
-class PandamusRex_Email_Receipts_Subscriber_for_WooCommerce {
+class PandamusRex_Email_Webhook_for_WooCommerce {
     private static $instance;
 
     public static function get_instance() {
@@ -46,9 +46,9 @@ class PandamusRex_Email_Receipts_Subscriber_for_WooCommerce {
 
     public function rest_api_init() {
         require_once( plugin_dir_path(__FILE__) . 'includes/rest-controller.php' );
-        $rest_controller = new PandamusRex_Email_Receipts_Rest_Controller();
+        $rest_controller = new PandamusRex_Email_Webhook_Rest_Controller();
         $rest_controller->register_routes();
     }
 }
 
-PandamusRex_Email_Receipts_Subscriber_for_WooCommerce::get_instance();
+PandamusRex_Email_Webhook_for_WooCommerce::get_instance();

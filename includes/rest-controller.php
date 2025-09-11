@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class PandamusRex_Email_Receipts_Rest_Controller extends \WP_REST_Controller {
+class PandamusRex_Email_Webhook_Rest_Controller extends \WP_REST_Controller {
 
     protected $namespace = 'pandamusrex/v1';
     protected $rest_base = 'email-receipts-subscriber';
