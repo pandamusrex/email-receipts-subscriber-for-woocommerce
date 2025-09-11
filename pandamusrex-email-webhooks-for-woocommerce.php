@@ -26,6 +26,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // include_once( plugin_dir_path(__FILE__) . 'includes/notification-post-type.php' );
 
+require_once( plugin_dir_path(__FILE__) . 'includes/webhooks-db.php' );
+register_activation_hook( __FILE__, [ 'PandamusRex_Email_Webhooks_Db', 'create_tables' ] );
+
+require_once( plugin_dir_path(__FILE__) . 'includes/webhooks-history-db.php' );
+register_activation_hook( __FILE__, [ 'PandamusRex_Email_Webhooks_History_Db', 'create_tables' ] );
+
 class PandamusRex_Email_Webhooks_for_WooCommerce {
     private static $instance;
 
