@@ -28,13 +28,13 @@ class PandamusRex_Payment_Notifications_Admin {
             __( 'Payment Notifications', 'pandamusrex-email-webhooks' ),
             'manage_options',
             'pandamusrex_pmt_notif_page',
-            [ $this, 'echo_pmt_notif_page' ],
+            [ $this, 'page_router' ],
             'dashicons-pets',
             59 // below first separator
         );
     }
 
-    public function echo_pmt_notif_page() {
+    public function page_router() {
         if ( ! function_exists( 'wc_get_logger' ) ) {
             wp_admin_notice(
                 __( 'PandamusRex Email Webhooks for WooCommerce requires the WooCommerce plugin to be active.', 'pandamusrex-memberships' ),
@@ -43,6 +43,25 @@ class PandamusRex_Payment_Notifications_Admin {
             return;
         }
 
+        // TODO handle POSTs
+
+        if ( isset( $_GET[ 'action' ] ) ) {
+            if ( $_GET[ 'action' ] == 'edit' ) {
+                $this->echo_pmt_notif_edit_page();
+                return;
+            }
+
+            if ( $_GET[ 'action' ] == 'delete' ) {
+                $this->echo_pmt_notif_delete_page();
+                return;
+            }
+        }
+
+        // Otherwise, show them all
+        $this->echo_pmt_notif_page();
+    }
+
+    public function echo_pmt_notif_page() {
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">';
         esc_html_e( 'Payment Notifications', 'pandamusrex-email-webhooks' );
@@ -61,39 +80,13 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '</tr>';
         echo '</thead>';
 
-        wc_get_logger()->debug( "In display all" );
-
         $notifications = PandamusRex_Email_Webhooks_Db::get_all_notifications();
-
         if ( empty( $notifications ) ) {
             echo '<tr class="no-items">';
-            echo '<td class="colspanchange" colspan="6">';
+            echo '<td class="colspanchange" colspan="4">';
             esc_html_e( 'No payment notifications found.', 'pandamusrex-payment-notifications' );
             echo '</td>';
             echo '</tr>';
-
-            $result = PandamusRex_Email_Webhooks_Db::record_webhook(
-                "Test message not from Zelle 202509081130",
-                "2025-09-09T00:00:32.000Z",
-                "Test Sender test@example.com",
-                "This is a test message to try out my webhook\r\nLa la la\r\nTest Sender\r\n"
-            );
-            if ( is_wp_error( $result ) ) {
-                wc_get_logger()->debug( "Error adding record to database" );
-                wc_get_logger()->debug( $result->get_error_message() );
-            }
-
-            $result = PandamusRex_Email_Webhooks_Db::record_webhook(
-                "Test message not from Zelle 202509111730",
-                "2025-09-12T00:30:32.000Z",
-                "Test Sender test@example.com",
-                "This is another test message to try out my webhook\r\nLa la la\r\nTest Sender\r\n"
-            );
-            if ( is_wp_error( $result ) ) {
-                wc_get_logger()->debug( "Error adding record to database" );
-                wc_get_logger()->debug( $result->get_error_message() );
-            }
-
         } else {
             foreach ( $notifications as $notification ) {
                 echo '<tr>';
@@ -107,13 +100,13 @@ class PandamusRex_Payment_Notifications_Admin {
                 echo ' | ';
                 echo '</span>';
                 echo '<span class="edit">';
-                $edit_url = "?action=edit&notification_id=" . $notification[ 'id' ];
+                $edit_url = "?page=pandamusrex_pmt_notif_page&action=edit&notification_id=" . $notification[ 'id' ];
                 echo '<a href="' . $edit_url . '">';
                 echo esc_html__( 'Edit', 'pandamusrex-payment-notifications' );
                 echo '</a>';
                 echo ' | ';
                 echo '<span class="delete">';
-                $delete_url = "?action=delete&notification_id=" . $notification[ 'id' ];
+                $delete_url = "?page=pandamusrex_pmt_notif_page&action=delete&notification_id=" . $notification[ 'id' ];
                 echo '<a href="' . $delete_url . '">';
                 echo esc_html__( 'Delete', 'pandamusrex-payment-notifications' );
                 echo '</a>';
@@ -131,6 +124,10 @@ class PandamusRex_Payment_Notifications_Admin {
                     echo esc_html( $order_id );
                 }
                 echo '</td>';
+                echo '<td>';
+                $order_id = $notification[ 'email_received' ];
+                echo esc_html( $email_received );
+                echo '</td>';
                 echo '</tr>';
             }
         }
@@ -147,6 +144,29 @@ class PandamusRex_Payment_Notifications_Admin {
 
         echo '</div>';
     }
+
+    public function echo_pmt_notif_edit_page() {
+        echo '<div class="wrap">';
+        echo '<h1 class="wp-heading-inline">';
+        esc_html_e( 'Edit Payment Notification', 'pandamusrex-email-webhooks' );
+        echo '</h1>';
+        echo '<hr class="wp-header-end">';
+
+        echo '<p>&nbsp;</p>';
+        echo '</div>';
+    }
+
+    public function echo_pmt_notif_delete_page() {
+        echo '<div class="wrap">';
+        echo '<h1 class="wp-heading-inline">';
+        esc_html_e( 'Delete Payment Notification', 'pandamusrex-email-webhooks' );
+        echo '</h1>';
+        echo '<hr class="wp-header-end">';
+
+        echo '<p>&nbsp;</p>';
+        echo '</div>';
+    }
+
 }
 
 PandamusRex_Payment_Notifications_Admin::get_instance();
