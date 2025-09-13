@@ -61,6 +61,8 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '</tr>';
         echo '</thead>';
 
+        wc_get_logger()->debug( "In display all" );
+
         $emails = PandamusRex_Email_Webhooks_Db::get_all_notifications();
 
         if ( empty( $notifications ) ) {
