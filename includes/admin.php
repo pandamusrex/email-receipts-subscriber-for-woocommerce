@@ -69,6 +69,21 @@ class PandamusRex_Payment_Notifications_Admin {
             esc_html_e( 'No payment notifications found.', 'pandamusrex-payment-notifications' );
             echo '</td>';
             echo '</tr>';
+
+            PandamusRex_Email_Webhooks_Db::record_webhook(
+                "Test message not from Zelle 202509081130",
+                "2025-09-09T00:00:32.000Z",
+                "Test Sender test@example.com",
+                "This is a test message to try out my webhook\r\nLa la la\r\nTest Sender\r\n"
+            );
+
+            PandamusRex_Email_Webhooks_Db::record_webhook(
+                "Test message not from Zelle 202509111730",
+                "2025-09-12T00:30:32.000Z",
+                "Test Sender test@example.com",
+                "This is another test message to try out my webhook\r\nLa la la\r\nTest Sender\r\n"
+            );
+
         } else {
             foreach ( $notifications as $notification ) {
                 echo '<tr>';
