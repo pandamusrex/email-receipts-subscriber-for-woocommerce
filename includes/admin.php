@@ -125,7 +125,7 @@ class PandamusRex_Payment_Notifications_Admin {
                 }
                 echo '</td>';
                 echo '<td>';
-                $order_id = $notification[ 'email_received' ];
+                $email_received = $notification[ 'email_received' ];
                 echo esc_html( $email_received );
                 echo '</td>';
                 echo '</tr>';
