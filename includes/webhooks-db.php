@@ -29,6 +29,10 @@ class PandamusRex_Email_Webhooks_Db {
         dbDelta( $sql );
     }
 
+    public static function get_all_notifications() {
+        return [];
+    }
+
     public static function record_webhook( $email_subject, $email_received, $email_sender, $email_body ) {
         global $wpdb;
 

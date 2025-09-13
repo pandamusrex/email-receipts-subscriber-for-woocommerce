@@ -37,17 +37,34 @@ class PandamusRex_Email_Webhooks_Rest_Controller extends \WP_REST_Controller {
     }
 
     public function post_email( $request ) {
-        $body = wp_kses_post( $request->get_body() );
-
-        if ( function_exists( 'wc_get_logger' ) ) {
-            wc_get_logger()->debug( $body );
+        $json = $request->get_body();
+        $decoded_body = json_decode( $json, true );
+        if ( json_last_error() !== JSON_ERROR_NONE ) {
+            if ( function_exists( 'wc_get_logger' ) ) {
+                wc_get_logger()->debug( "Error decoding POST body as json" );
+                wc_get_logger()->debug( $json );
+                return new WP_REST_Response( [], 400 );
+            }
         }
 
-        // $id = wp_insert_post( array(
-        //     'post_title'  => 'random',
-        //     'post_type'   => 'pandamusrex_mailnote',
-        //     'post_content' => $body
-        // ) );
+        $email_subject = sanitize_text_field( $decoded_body[ 'email_subject' ] );
+        $email_body = sanitize_text_field( $decoded_body[ 'email_body' ] );
+        $email_received = sanitize_text_field( $decoded_body[ 'email_received' ] );
+        $email_sender = $decoded_body[ 'email_sender' ];
+        $email_sender = str_replace( "<", "", $email_sender );
+        $email_sender = str_replace( ">", "", $email_sender );
+
+        $result = PandamusRex_Email_Webhooks_Db::record_webhook(
+            $email_subject,
+            $email_received,
+            $email_sender,
+            $email_body
+        );
+
+        if ( is_wp_error( $result ) ) {
+                wc_get_logger()->debug( "Error saving webhook data to database" );
+                return new WP_REST_Response( [], 400 );
+        }
 
         return new WP_REST_Response( true, 200 );
     }
