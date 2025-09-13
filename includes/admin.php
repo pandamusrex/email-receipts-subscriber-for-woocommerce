@@ -70,19 +70,27 @@ class PandamusRex_Payment_Notifications_Admin {
             echo '</td>';
             echo '</tr>';
 
-            PandamusRex_Email_Webhooks_Db::record_webhook(
+            $result = PandamusRex_Email_Webhooks_Db::record_webhook(
                 "Test message not from Zelle 202509081130",
                 "2025-09-09T00:00:32.000Z",
                 "Test Sender test@example.com",
                 "This is a test message to try out my webhook\r\nLa la la\r\nTest Sender\r\n"
             );
+            if ( is_wp_error( $result ) ) {
+                wc_get_logger()->debug( "Error adding record to database" );
+                wc_get_logger()->debug( $result->get_error_message() );
+            }
 
-            PandamusRex_Email_Webhooks_Db::record_webhook(
+            $result = PandamusRex_Email_Webhooks_Db::record_webhook(
                 "Test message not from Zelle 202509111730",
                 "2025-09-12T00:30:32.000Z",
                 "Test Sender test@example.com",
                 "This is another test message to try out my webhook\r\nLa la la\r\nTest Sender\r\n"
             );
+            if ( is_wp_error( $result ) ) {
+                wc_get_logger()->debug( "Error adding record to database" );
+                wc_get_logger()->debug( $result->get_error_message() );
+            }
 
         } else {
             foreach ( $notifications as $notification ) {
