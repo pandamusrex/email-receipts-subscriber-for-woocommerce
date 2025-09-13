@@ -63,7 +63,7 @@ class PandamusRex_Payment_Notifications_Admin {
 
         wc_get_logger()->debug( "In display all" );
 
-        $emails = PandamusRex_Email_Webhooks_Db::get_all_notifications();
+        $notifications = PandamusRex_Email_Webhooks_Db::get_all_notifications();
 
         if ( empty( $notifications ) ) {
             echo '<tr class="no-items">';
