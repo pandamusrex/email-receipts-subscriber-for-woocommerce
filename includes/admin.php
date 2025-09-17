@@ -75,7 +75,7 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '<tr>';
         echo '<th scope="col" class="manage-column">' . esc_html__( 'Sender', 'pandamusrex-payment-notifications' ) . '</th>';
         echo '<th scope="col" class="manage-column">' . esc_html__( 'Subject', 'pandamusrex-payment-notifications' ) . '</th>';
-        echo '<th scope="col" class="manage-column">' . esc_html__( 'Order', 'pandamusrex-payment-notifications' ) . '</th>';
+        echo '<th scope="col" class="manage-column">' . esc_html__( 'Assigned to Order', 'pandamusrex-payment-notifications' ) . '</th>';
         echo '<th scope="col" class="manage-column">' . esc_html__( 'Received', 'pandamusrex-payment-notifications' ) . '</th>';
         echo '</tr>';
         echo '</thead>';
@@ -136,7 +136,7 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '<tr>';
         echo '<th scope="col" class="manage-column">' . esc_html__( 'Sender', 'pandamusrex-payment-notifications' ) . '</th>';
         echo '<th scope="col" class="manage-column">' . esc_html__( 'Subject', 'pandamusrex-payment-notifications' ) . '</th>';
-        echo '<th scope="col" class="manage-column">' . esc_html__( 'Order', 'pandamusrex-payment-notifications' ) . '</th>';
+        echo '<th scope="col" class="manage-column">' . esc_html__( 'Assigned to Order', 'pandamusrex-payment-notifications' ) . '</th>';
         echo '<th scope="col" class="manage-column">' . esc_html__( 'Received', 'pandamusrex-payment-notifications' ) . '</th>';
         echo '</tr>';
         echo '</tfoot>';
@@ -152,7 +152,43 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '</h1>';
         echo '<hr class="wp-header-end">';
 
-        echo '<p>&nbsp;</p>';
+        echo '<form>';
+            echo '<div id="poststuff">';
+            echo '</div>';
+
+            echo '<div id="postbox-container-1" class="postbox-container">';
+                echo '<div id="side-sortables" class="meta-box-sortables">';
+                    echo '<div id="submitdiv" class="postbox">';
+                        echo '<div class="postbox-header">';
+                            echo '<h2>Save</h2>';
+                        echo '</div>';
+                        echo '<div class="inside">';
+                            echo '<div class="submitbox" id="submitpost">';
+                                echo '<div id="minor-publishing">';
+                                echo '</div>';
+                                echo '<div id="major-publishing-actions">';
+                                    echo '<div id="delete-action">';
+                                        echo '<a class="submitdelete deletion" href="#">Move to Trash</a>';
+                                        echo '</div>';
+                                    echo '<div id="publishing-action">';
+                                        echo '<input type="submit" name="publish" id="publish" class="button button-primary button-large" value="Publish">';
+                                    echo '</div>';
+                                echo '</div>';
+                            echo '</div>';
+                        echo '</div>';
+                    echo '</div>';
+                echo '</div>';
+            echo '</div>';
+            echo '<div id="postbox-container-2" class="postbox-container">';
+                echo '<div id="postcustom" class="postbox ">';
+                    echo '<div class="postbox-header">';
+                        echo '<h2 class="hndle ui-sortable-handle">History</h2>';
+                    echo '<div id="postcustomstuff">';
+                    echo '</div>';
+                echo '</div>';
+            echo '</div>';
+        echo '</form>';
+
         echo '</div>';
     }
 
