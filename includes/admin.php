@@ -173,6 +173,8 @@ class PandamusRex_Payment_Notifications_Admin {
                                             echo '<div id="publishing-action">';
                                                 echo '<input type="submit" name="publish" id="publish" class="button button-primary button-large" value="Publish">';
                                             echo '</div>';
+                                            echo '<div class="clear">';
+                                            echo '</div>';
                                         echo '</div>';
                                     echo '</div>';
                                 echo '</div>';
