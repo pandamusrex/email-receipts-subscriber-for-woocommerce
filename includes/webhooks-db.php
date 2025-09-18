@@ -39,6 +39,20 @@ class PandamusRex_Email_Webhooks_Db {
         return $results;
     }
 
+    public static function get_notification_by_id( $id ) {
+        global $wpdb;
+
+        $sql = 'SELECT * FROM %i WHERE id = %d';
+        $vars = [ self::getTableName(), $id ];
+        $results = $wpdb->get_results( $wpdb->prepare( $sql, $vars ), ARRAY_A );
+
+        if ( is_array( $results ) and ( count( $results ) > 0 ) ) {
+            return $results[0];
+        }
+
+        return new WP_Error( 'pandamusrex-email-webhooks', $wpdb->last_error );
+    }
+
     public static function record_webhook( $email_subject, $email_received, $email_sender, $email_body ) {
         global $wpdb;
 

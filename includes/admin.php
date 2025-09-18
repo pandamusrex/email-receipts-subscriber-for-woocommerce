@@ -46,13 +46,18 @@ class PandamusRex_Payment_Notifications_Admin {
         // TODO handle POSTs
 
         if ( isset( $_GET[ 'action' ] ) ) {
+            $notification_id = 0;
+            if ( isset( $_GET[ 'notification_id' ] ) ) {
+                $notification_id = $_GET[ 'notification_id' ];
+                $notification_id = intval( $notification_id );
+            }
             if ( $_GET[ 'action' ] == 'edit' ) {
-                $this->echo_pmt_notif_edit_page();
+                $this->echo_pmt_notif_edit_page( $notification_id );
                 return;
             }
 
             if ( $_GET[ 'action' ] == 'delete' ) {
-                $this->echo_pmt_notif_delete_page();
+                $this->echo_pmt_notif_delete_page( $notification_id );
                 return;
             }
         }
@@ -145,7 +150,24 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '</div>';
     }
 
-    public function echo_pmt_notif_edit_page() {
+    public function echo_pmt_notif_edit_page( $notification_id ) {
+        if ( $notification_id < 1 ) {
+            wp_admin_notice(
+                __( 'Invalid request - bad notification ID', 'pandamusrex-email-webhooks' ),
+                [ 'type' => 'error' ]
+            );
+            return;
+        }
+
+        $notification = PandamusRex_Email_Webhooks_Db::get_notification_by_id( $notification_id );
+        if ( is_wp_error( $notification ) ) {
+            wp_admin_notice(
+                $notification->get_error_message(),
+                [ 'type' => 'error' ]
+            );
+            return;
+        }
+
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">';
         esc_html_e( 'Edit Payment Notification', 'pandamusrex-email-webhooks' );
@@ -156,42 +178,17 @@ class PandamusRex_Payment_Notifications_Admin {
             echo '<div id="poststuff">';
                 echo '<div id="post-body" class="metabox-holder columns-2">';
                     echo '<div id="post-body-content">';
+                        echo '<h2>';
+                        echo esc_html( $notification[ 'email_subject' ] );
+                        echo '</h2>';
+                        echo '<p>';
+                        echo esc_html( $notification[ 'email_received' ] );
+                        echo '</p>';
+                        echo '<p>';
+                        echo esc_html( $notification[ 'email_sender' ] );
+                        echo '</p>';
                         echo '<div>';
-                            echo '<table>';
-                                echo '<tr>';
-                                    echo '<th>';
-                                        echo 'Subject';
-                                    echo '</th>';
-                                    echo '<td>';
-                                        echo 'Email Subject Goes Here';
-                                    echo '</td>';
-                                echo '</tr>';
-                                echo '<tr>';
-                                    echo '<th>';
-                                        echo 'Received';
-                                    echo '</th>';
-                                    echo '<td>';
-                                        echo '2025-08-08 08:08 AM';
-                                    echo '</td>';
-                                echo '</tr>';
-                                echo '<tr>';
-                                    echo '<th>';
-                                        echo 'Sender';
-                                    echo '</th>';
-                                    echo '<td>';
-                                        echo 'someone@somewhere.com';
-                                    echo '</td>';
-                                echo '</tr>';
-                            echo '</table>';
-                        echo '</div>';
-                        echo '<div>';
-                            echo '<p>';
-                                echo 'Email goes here.</br>';
-                                echo 'Email goes here.</br>';
-                                echo 'Email goes here.</br>';
-                                echo 'Email goes here.</br>';
-                                echo 'Email goes here.</br>';
-                            echo '</p>';
+                            echo esc_html( nl2br( $notification[ 'email_body' ] ) );
                         echo '</div>';
                     echo '</div>';
                     echo '<div id="postbox-container-1" class="postbox-container">';
@@ -234,7 +231,7 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '</div>';
     }
 
-    public function echo_pmt_notif_delete_page() {
+    public function echo_pmt_notif_delete_page( $notification_id ) {
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">';
         esc_html_e( 'Delete Payment Notification', 'pandamusrex-email-webhooks' );
