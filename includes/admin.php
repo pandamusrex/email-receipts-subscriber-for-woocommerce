@@ -241,27 +241,27 @@ class PandamusRex_Payment_Notifications_Admin {
                                 echo '<h2 class="hndle">';
                                 esc_html_e( 'History', 'pandamusrex-email-webhooks' );
                                 echo '</h2>';
-                                echo '<div id="postcustomstuff">';
-                                    if ( empty( $notification_history_items ) ) {
-                                        esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
-                                    } else {
-                                        echo '<table>';
-                                            echo '<tbody>';
-                                            foreach ( $notification_history_items as $item ) {
-                                                echo '<tr>';
-                                                echo '<td>';
-                                                echo esc_html( $item[ 'note_created'] );
-                                                echo '</td>';
-                                                echo '<td>';
-                                                echo esc_html( $item[ 'note'] );
-                                                echo '</td>';
-                                                echo '</tr>';
-                                            }
-                                        echo '</tbody>';
-                                        echo '</table>';
-                                    }
-                                echo '</div>'; #postcustomstuff
                             echo '</div>';
+                            echo '<div class="inside">';
+                                if ( empty( $notification_history_items ) ) {
+                                    esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
+                                } else {
+                                    echo '<table>';
+                                        echo '<tbody>';
+                                        foreach ( $notification_history_items as $item ) {
+                                            echo '<tr>';
+                                            echo '<td>';
+                                            echo esc_html( $item[ 'note_created'] );
+                                            echo '</td>';
+                                            echo '<td>';
+                                            echo esc_html( $item[ 'note'] );
+                                            echo '</td>';
+                                            echo '</tr>';
+                                        }
+                                    echo '</tbody>';
+                                    echo '</table>';
+                                }
+                            echo '</div>'; # .inside
                         echo '</div>';
                     echo '</div>';
                 echo '</div>';
