@@ -178,97 +178,96 @@ class PandamusRex_Payment_Notifications_Admin {
         }
 
         echo '<div class="wrap">';
-        echo '<h1 class="wp-heading-inline">';
-        esc_html_e( 'Edit Payment Notification', 'pandamusrex-email-webhooks' );
-        echo '</h1>';
-        echo '<hr class="wp-header-end">';
+            echo '<h1 class="wp-heading-inline">';
+            esc_html_e( 'Edit Payment Notification', 'pandamusrex-email-webhooks' );
+            echo '</h1>';
+            echo '<hr class="wp-header-end">';
 
-        echo '<form>';
-            echo '<div id="poststuff">';
-                echo '<div id="post-body" class="metabox-holder columns-2">';
-                    echo '<div id="post-body-content">';
-                        echo '<h2 class="pandamusrex-notification-subject-single">';
-                        echo esc_html( $notification[ 'email_subject' ] );
-                        echo '</h2>';
-                        echo '<p>';
-                        echo '<b>';
-                        esc_html_e( 'Received:', 'pandamusrex-email-webhooks' );
-                        echo '</b>';
-                        echo ' ';
-                        echo esc_html( $notification[ 'email_received' ] );
-                        echo '</p>';
-                        echo '<p>';
-                        echo '<b>';
-                        esc_html_e( 'From:', 'pandamusrex-email-webhooks' );
-                        echo '</b>';
-                        echo ' ';
-                        echo esc_html( $notification[ 'email_sender' ] );
-                        echo '</p>';
-                        echo '<div class="pandamusrex-notification-body-single>';
-                            echo wp_kses_post( nl2br( $notification[ 'email_body' ] ) );
+            echo '<form>';
+                echo '<div id="poststuff">';
+                    echo '<div id="post-body" class="metabox-holder columns-2">';
+                        echo '<div id="post-body-content">';
+                            echo '<h2 class="pandamusrex-notification-subject-single">';
+                            echo esc_html( $notification[ 'email_subject' ] );
+                            echo '</h2>';
+                            echo '<p>';
+                                echo '<b>';
+                                esc_html_e( 'Received:', 'pandamusrex-email-webhooks' );
+                                echo '</b>';
+                                echo ' ';
+                                echo esc_html( $notification[ 'email_received' ] );
+                            echo '</p>';
+                            echo '<p>';
+                                echo '<b>';
+                                esc_html_e( 'From:', 'pandamusrex-email-webhooks' );
+                                echo '</b>';
+                                echo ' ';
+                                echo esc_html( $notification[ 'email_sender' ] );
+                            echo '</p>';
+                            echo '<div class="pandamusrex-notification-body-single>';
+                                echo wp_kses_post( nl2br( $notification[ 'email_body' ] ) );
+                            echo '</div>';
                         echo '</div>';
-                    echo '</div>';
-                    echo '<div id="postbox-container-1" class="postbox-container">';
-                        echo '<div id="side-sortables" class="meta-box-sortables">';
-                            echo '<div id="submitdiv" class="postbox">';
+                        echo '<div id="postbox-container-1" class="postbox-container">';
+                            echo '<div id="side-sortables" class="meta-box-sortables">';
+                                echo '<div id="submitdiv" class="postbox">';
+                                    echo '<div class="postbox-header">';
+                                        echo '<h2>';
+                                            esc_html_e( 'Actions', 'pandamusrex-email-webhooks' );
+                                        echo '</h2>';
+                                    echo '</div>';
+                                    echo '<div class="inside">';
+                                        echo '<div class="submitbox" id="submitpost">';
+                                            echo '<div id="minor-publishing">';
+                                            echo '</div>';
+                                            echo '<div id="major-publishing-actions">';
+                                                echo '<div id="delete-action">';
+                                                    echo '<a class="submitdelete deletion" href="#">Move to Trash</a>';
+                                                echo '</div>';
+                                                echo '<div id="publishing-action">';
+                                                    echo '<input type="submit" name="publish" id="publish" class="button button-primary button-large" value="Save Changes">';
+                                                echo '</div>';
+                                                echo '<div class="clear">';
+                                                echo '</div>';
+                                            echo '</div>';
+                                        echo '</div>';
+                                    echo '</div>'; // .inside
+                                echo '</div>'; // #submitdiv
+                            echo '</div>';
+                        echo '</div>'; // #postbox-container-1
+                        echo '<div id="postbox-container-2" class="postbox-container">';
+                            echo '<div id="postcustom" class="postbox ">';
                                 echo '<div class="postbox-header">';
-                                    echo '<h2>';
-                                    esc_html_e( 'Actions', 'pandamusrex-email-webhooks' );
+                                    echo '<h2 class="hndle">';
+                                    esc_html_e( 'History', 'pandamusrex-email-webhooks' );
                                     echo '</h2>';
                                 echo '</div>';
                                 echo '<div class="inside">';
-                                    echo '<div class="submitbox" id="submitpost">';
-                                        echo '<div id="minor-publishing">';
-                                        echo '</div>';
-                                        echo '<div id="major-publishing-actions">';
-                                            echo '<div id="delete-action">';
-                                                echo '<a class="submitdelete deletion" href="#">Move to Trash</a>';
-                                                echo '</div>';
-                                            echo '<div id="publishing-action">';
-                                                echo '<input type="submit" name="publish" id="publish" class="button button-primary button-large" value="Save Changes">';
-                                            echo '</div>';
-                                            echo '<div class="clear">';
-                                            echo '</div>';
-                                        echo '</div>';
-                                    echo '</div>';
-                                echo '</div>';
-                            echo '</div>'; // submitdiv
-                        echo '</div>';
-                    echo '</div>'; // postbox-container-1
-                    echo '<div id="postbox-container-2" class="postbox-container">';
-                        echo '<div id="postcustom" class="postbox ">';
-                            echo '<div class="postbox-header">';
-                                echo '<h2 class="hndle">';
-                                esc_html_e( 'History', 'pandamusrex-email-webhooks' );
-                                echo '</h2>';
-                            echo '</div>';
-                            echo '<div class="inside">';
-                                if ( empty( $notification_history_items ) ) {
-                                    esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
-                                } else {
-                                    echo '<table>';
-                                        echo '<tbody>';
-                                        foreach ( $notification_history_items as $item ) {
-                                            echo '<tr>';
-                                            echo '<td>';
-                                            echo esc_html( $item[ 'note_created'] );
-                                            echo '</td>';
-                                            echo '<td>';
-                                            echo esc_html( $item[ 'note'] );
-                                            echo '</td>';
-                                            echo '</tr>';
-                                        }
-                                    echo '</tbody>';
-                                    echo '</table>';
-                                }
-                            echo '</div>'; # .inside
-                        echo '</div>';
-                    echo '</div>';
-                echo '</div>';
-            echo '</div>';
-        echo '</form>';
-
-        echo '</div>';
+                                    if ( empty( $notification_history_items ) ) {
+                                        esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
+                                    } else {
+                                        echo '<table>';
+                                            echo '<tbody>';
+                                            foreach ( $notification_history_items as $item ) {
+                                                echo '<tr>';
+                                                echo '<td>';
+                                                echo esc_html( $item[ 'note_created'] );
+                                                echo '</td>';
+                                                echo '<td>';
+                                                echo esc_html( $item[ 'note'] );
+                                                echo '</td>';
+                                                echo '</tr>';
+                                            }
+                                        echo '</tbody>';
+                                        echo '</table>';
+                                    }
+                                echo '</div>'; // .inside
+                            echo '</div>'; // #postcustom .postbox
+                        echo '</div>'; // #postbox-container-2
+                    echo '</div>'; // post-body
+                echo '</div>'; // #poststuff
+            echo '</form>';
+        echo '</div>'; // #wrap
     }
 
     public function echo_pmt_notif_delete_page( $notification_id ) {
