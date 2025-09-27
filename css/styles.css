@@ -1,4 +1,12 @@
-.pandamusrex-notification-subject-single {
-    font-size: 20px;
-    padding-left: 0;
+#poststuff {
+    .pandamusrex-notification-subject-single {
+        font-size: 20px;
+        padding-left: 0;
+    }
+
+    .pandamusrex-notification-body-single {
+        background-color: #eee;
+        border: 1px solid #111;
+        padding: 10px;
+    }
 }

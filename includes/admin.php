@@ -168,6 +168,15 @@ class PandamusRex_Payment_Notifications_Admin {
             return;
         }
 
+        $notification_history_items = PandamusRex_Email_Webhooks_History_Db::get_history_for_webhook( $notification_id );
+        if ( is_wp_error( $notification_history_items ) ) {
+            wp_admin_notice(
+                $notification_history_items->get_error_message(),
+                [ 'type' => 'error' ]
+            );
+            return;
+        }
+
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">';
         esc_html_e( 'Edit Payment Notification', 'pandamusrex-email-webhooks' );
@@ -195,7 +204,7 @@ class PandamusRex_Payment_Notifications_Admin {
                         echo ' ';
                         echo esc_html( $notification[ 'email_sender' ] );
                         echo '</p>';
-                        echo '<div>';
+                        echo '<div class="pandamusrex-notification-body-single>';
                             echo wp_kses_post( nl2br( $notification[ 'email_body' ] ) );
                         echo '</div>';
                     echo '</div>';
@@ -203,7 +212,9 @@ class PandamusRex_Payment_Notifications_Admin {
                         echo '<div id="side-sortables" class="meta-box-sortables">';
                             echo '<div id="submitdiv" class="postbox">';
                                 echo '<div class="postbox-header">';
-                                    echo '<h2>Save</h2>';
+                                    echo '<h2>';
+                                    esc_html_e( 'Actions', 'pandamusrex-email-webhooks' );
+                                    echo '</h2>';
                                 echo '</div>';
                                 echo '<div class="inside">';
                                     echo '<div class="submitbox" id="submitpost">';
@@ -214,7 +225,7 @@ class PandamusRex_Payment_Notifications_Admin {
                                                 echo '<a class="submitdelete deletion" href="#">Move to Trash</a>';
                                                 echo '</div>';
                                             echo '<div id="publishing-action">';
-                                                echo '<input type="submit" name="publish" id="publish" class="button button-primary button-large" value="Save">';
+                                                echo '<input type="submit" name="publish" id="publish" class="button button-primary button-large" value="Save Changes">';
                                             echo '</div>';
                                             echo '<div class="clear">';
                                             echo '</div>';
@@ -227,8 +238,24 @@ class PandamusRex_Payment_Notifications_Admin {
                     echo '<div id="postbox-container-2" class="postbox-container">';
                         echo '<div id="postcustom" class="postbox ">';
                             echo '<div class="postbox-header">';
-                                echo '<h2 class="hndle ui-sortable-handle">History</h2>';
+                                echo '<h2>History</h2>';
                             echo '<div id="postcustomstuff">';
+                                if ( empty( $notification_history_items ) ) {
+                                    esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
+                                } else {
+                                    echo '<table>';
+                                    foreach ( $notification_history_items as $item ) {
+                                        echo '<tr>';
+                                        echo '<td>';
+                                        echo esc_html( $item[ 'note_created'] );
+                                        echo '</td>';
+                                        echo '<td>';
+                                        echo esc_html( $item[ 'note'] );
+                                        echo '</td>';
+                                        echo '</tr>';
+                                    }
+                                    echo '</table>';
+                                }
                             echo '</div>';
                         echo '</div>';
                     echo '</div>';
