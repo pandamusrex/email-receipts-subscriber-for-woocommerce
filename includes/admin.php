@@ -204,7 +204,7 @@ class PandamusRex_Payment_Notifications_Admin {
                                 echo ' ';
                                 echo esc_html( $notification[ 'email_sender' ] );
                             echo '</p>';
-                            echo '<div class="pandamusrex-notification-body-single>';
+                            echo '<div class="pandamusrex-notification-body-single">';
                                 echo wp_kses_post( nl2br( $notification[ 'email_body' ] ) );
                             echo '</div>';
                         echo '</div>';
@@ -212,7 +212,7 @@ class PandamusRex_Payment_Notifications_Admin {
                             echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
                                 echo '<div id="submitdiv" class="postbox">';
                                     echo '<div class="postbox-header">';
-                                        echo '<h2>';
+                                        echo '<h2 class="hndle ui-sortable-handle">';
                                             esc_html_e( 'Actions', 'pandamusrex-email-webhooks' );
                                         echo '</h2>';
                                     echo '</div>';
