@@ -204,8 +204,15 @@ class PandamusRex_Payment_Notifications_Admin {
                                 echo ' ';
                                 echo esc_html( $notification[ 'email_sender' ] );
                             echo '</p>';
-                            echo '<div class="pandamusrex-notification-body-single">';
-                                echo wp_kses_post( nl2br( $notification[ 'email_body' ] ) );
+                            echo '<div id="postemailcontent" class="postbox">';
+                                echo '<div class="postbox-header">';
+                                    echo '<h2 class="hndle">';
+                                    esc_html_e( 'Email Body', 'pandamusrex-email-webhooks' );
+                                    echo '</h2>';
+                                echo '</div>';
+                                echo '<div class="inside">';
+                                    echo wp_kses_post( nl2br( $notification[ 'email_body' ] ) );
+                                echo '</div>';
                             echo '</div>';
                         echo '</div>';
                         echo '<div id="postbox-container-1" class="postbox-container">';
@@ -236,7 +243,7 @@ class PandamusRex_Payment_Notifications_Admin {
                             echo '</div>';
                         echo '</div>'; // #postbox-container-1
                         echo '<div id="postbox-container-2" class="postbox-container">';
-                            echo '<div id="postcustom" class="postbox ">';
+                            echo '<div id="postcustom" class="postbox">';
                                 echo '<div class="postbox-header">';
                                     echo '<h2 class="hndle">';
                                     esc_html_e( 'History', 'pandamusrex-email-webhooks' );
