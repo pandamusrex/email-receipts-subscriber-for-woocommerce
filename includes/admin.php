@@ -150,6 +150,36 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '</div>';
     }
 
+    public function echo_order_selector( $preselect_order_id = 0 ) {
+        echo '<select name="order_id" id="order_id">';
+        echo '<option value="0">';
+        echo esc_html( 'None', 'pandamusrex-payment-notifications' );
+        echo '</option>';
+        $args = array(
+            'limit'      => -1,
+        );
+        $loop_orders = wc_get_orders( $args );
+        foreach ( $loop_orders as $loop_order ) {
+            if ( is_a( $loop_order, 'WC_Order_Refund' ) ) {
+                continue; // WC_Order_Refund doesn't implement get_customer_id();
+            }
+            $loop_customer_id = $loop_order->get_customer_id();
+            if ( $loop_customer_id ) {
+                $loop_order_id = $loop_order->get_id();
+                $loop_order_date = $loop_order->get_date_created();
+                $formatted_loop_order_date = $loop_order_date->date( 'd/m/Y' );
+                $loop_customer = new WC_Customer( $loop_customer_id );
+                $loop_customer_name = $loop_customer->get_first_name() . " " . $loop_customer->get_last_name();
+                $loop_customer_email = $loop_customer->get_email();
+                $selected = ( $loop_order_id == $preselect_order_id ) ? 'selected' : '';
+                echo '<option value="' . esc_attr( $loop_order_id ) . '" ' . $selected . '>';
+                echo esc_html( '#' . $loop_order_id . ' - ' . $loop_customer_name . ' - ' . $loop_customer_email . ' - ' . $formatted_loop_order_date );
+                echo '</option>';
+            }
+        }
+        echo '</select>';
+    }
+
     public function echo_pmt_notif_edit_page( $notification_id ) {
         if ( $notification_id < 1 ) {
             wp_admin_notice(
@@ -204,6 +234,16 @@ class PandamusRex_Payment_Notifications_Admin {
                                 echo ' ';
                                 echo esc_html( $notification[ 'email_sender' ] );
                             echo '</p>';
+                            echo '<div id="postassignedorder" class="postbox">';
+                                echo '<div class="postbox-header">';
+                                    echo '<h2 class="hndle">';
+                                    esc_html_e( 'Assigned to Order', 'pandamusrex-email-webhooks' );
+                                    echo '</h2>';
+                                echo '</div>';
+                                echo '<div class="inside">';
+                                    $this->echo_order_selector( $notification[ 'order_id' ] );
+                                echo '</div>';
+                            echo '</div>';
                             echo '<div id="postemailcontent" class="postbox">';
                                 echo '<div class="postbox-header">';
                                     echo '<h2 class="hndle">';
