@@ -239,23 +239,24 @@ class PandamusRex_Payment_Notifications_Admin {
                         echo '<div id="postcustom" class="postbox ">';
                             echo '<div class="postbox-header">';
                                 echo '<h2>History</h2>';
-                            echo '<div id="postcustomstuff">';
-                                if ( empty( $notification_history_items ) ) {
-                                    esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
-                                } else {
-                                    echo '<table>';
-                                    foreach ( $notification_history_items as $item ) {
-                                        echo '<tr>';
-                                        echo '<td>';
-                                        echo esc_html( $item[ 'note_created'] );
-                                        echo '</td>';
-                                        echo '<td>';
-                                        echo esc_html( $item[ 'note'] );
-                                        echo '</td>';
-                                        echo '</tr>';
+                                echo '<div id="postcustomstuff">';
+                                    if ( empty( $notification_history_items ) ) {
+                                        esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
+                                    } else {
+                                        echo '<table>';
+                                        foreach ( $notification_history_items as $item ) {
+                                            echo '<tr>';
+                                            echo '<td>';
+                                            echo esc_html( $item[ 'note_created'] );
+                                            echo '</td>';
+                                            echo '<td>';
+                                            echo esc_html( $item[ 'note'] );
+                                            echo '</td>';
+                                            echo '</tr>';
+                                        }
+                                        echo '</table>';
                                     }
-                                    echo '</table>';
-                                }
+                                echo '</div>'; #postcustomstuff
                             echo '</div>';
                         echo '</div>';
                     echo '</div>';

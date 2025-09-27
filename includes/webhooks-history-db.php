@@ -31,8 +31,11 @@ class PandamusRex_Email_Webhooks_History_Db {
     public static function get_history_for_webhook( $webhook_id ) {
         global $wpdb;
 
-        $sql = 'SELECT * FROM %i ORDER BY note_created DESC, id DESC';
-        $vars = [ self::getTableName() ];
+        $sql = 'SELECT * FROM %i WHERE id = %d ORDER BY note_created DESC, id DESC';
+        $vars = [
+            self::getTableName(),
+            $webhook_id
+        ];
         return $wpdb->get_results( $wpdb->prepare( $sql, $vars ), ARRAY_A );
     }
 
