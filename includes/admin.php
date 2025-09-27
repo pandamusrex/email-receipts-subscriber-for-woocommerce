@@ -238,22 +238,26 @@ class PandamusRex_Payment_Notifications_Admin {
                     echo '<div id="postbox-container-2" class="postbox-container">';
                         echo '<div id="postcustom" class="postbox ">';
                             echo '<div class="postbox-header">';
-                                echo '<h2>History</h2>';
+                                echo '<h2 class="hndle">';
+                                esc_html_e( 'History', 'pandamusrex-email-webhooks' );
+                                echo '</h2>';
                                 echo '<div id="postcustomstuff">';
                                     if ( empty( $notification_history_items ) ) {
                                         esc_html_e( 'No history available.', 'pandamusrex-email-webhooks' );
                                     } else {
                                         echo '<table>';
-                                        foreach ( $notification_history_items as $item ) {
-                                            echo '<tr>';
-                                            echo '<td>';
-                                            echo esc_html( $item[ 'note_created'] );
-                                            echo '</td>';
-                                            echo '<td>';
-                                            echo esc_html( $item[ 'note'] );
-                                            echo '</td>';
-                                            echo '</tr>';
-                                        }
+                                            echo '<tbody>';
+                                            foreach ( $notification_history_items as $item ) {
+                                                echo '<tr>';
+                                                echo '<td>';
+                                                echo esc_html( $item[ 'note_created'] );
+                                                echo '</td>';
+                                                echo '<td>';
+                                                echo esc_html( $item[ 'note'] );
+                                                echo '</td>';
+                                                echo '</tr>';
+                                            }
+                                        echo '</tbody>';
                                         echo '</table>';
                                     }
                                 echo '</div>'; #postcustomstuff
