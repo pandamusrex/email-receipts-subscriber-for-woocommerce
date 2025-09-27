@@ -209,7 +209,7 @@ class PandamusRex_Payment_Notifications_Admin {
                             echo '</div>';
                         echo '</div>';
                         echo '<div id="postbox-container-1" class="postbox-container">';
-                            echo '<div id="side-sortables" class="meta-box-sortables">';
+                            echo '<div id="side-sortables" class="meta-box-sortables ui-sortable">';
                                 echo '<div id="submitdiv" class="postbox">';
                                     echo '<div class="postbox-header">';
                                         echo '<h2>';
