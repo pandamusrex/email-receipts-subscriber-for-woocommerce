@@ -50,12 +50,20 @@ class PandamusRex_Email_Webhooks_for_WooCommerce {
 
     public function __construct() {
         add_action( 'rest_api_init', [ $this, 'rest_api_init' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
     }
 
     public function rest_api_init() {
         require_once( plugin_dir_path(__FILE__) . 'includes/rest-controller.php' );
         $rest_controller = new PandamusRex_Email_Webhooks_Rest_Controller();
         $rest_controller->register_routes();
+    }
+
+    public function admin_enqueue_scripts() {
+        wp_enqueue_style(
+            'pandamusrex-admin-notification-styles',
+            plugin_dir_url( __FILE__ ) . 'css/styles.css'
+        );
     }
 }
 
