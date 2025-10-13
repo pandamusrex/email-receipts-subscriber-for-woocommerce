@@ -7,14 +7,14 @@
 - [x] Comment out old post type code
 - [x] Create tables
 - [x] Create persistence layer for each table
-- [ ] Change Google Script to post as JSON
-- [ ] Allow no-auth POST endpoint writing of email to table
-- [ ] Create email list view like memberships
-- [ ] Create single email view (read only)
-- [ ] Add history list to single email view
-- [ ] Add note adding to single email view
+- [x] Change Google Script to post as JSON
+- [x] Allow no-auth POST endpoint writing of email to table
+- [x] Create email list view like memberships
+- [x] Create single email view (read only)
+- [x] Add history list to single email view
 - [ ] Add order picking to single email view
-- [ ] Add delete to list view
+- [ ] Add delete to single view; delete from list view
+- [ ] Clean up naming throughout to Email Receipts or Payments By Email or something
 - [ ] Add auth checking to POST endpoint
 - [ ] Delete old post type code
 - [ ] Add large meta box to order to show associated emails - with links to single email view

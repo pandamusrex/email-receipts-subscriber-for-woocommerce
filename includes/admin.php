@@ -44,7 +44,28 @@ class PandamusRex_Payment_Notifications_Admin {
         }
 
         // TODO handle POSTs
+        // POST action can be do_delete or do_update
+        if ( isset( $_POST['action'] ) ) {
+            $post_action = $_POST['action'];
 
+            if ( $post_action == 'do_delete' ) {
+                $this->echo_do_delete();
+                return;
+            }
+
+            if ( $post_action == 'do_update' ) {
+                $this->echo_do_update();
+                return;
+            }
+
+            wp_admin_notice(
+                __( 'Invalid POST action', 'pandamusrex-email-webhooks' ),
+                [ 'type' => 'error' ]
+            );
+            return;
+        }
+
+        // Handle our GETs
         if ( isset( $_GET[ 'action' ] ) ) {
             $notification_id = 0;
             if ( isset( $_GET[ 'notification_id' ] ) ) {
@@ -62,10 +83,25 @@ class PandamusRex_Payment_Notifications_Admin {
             }
         }
 
-        // Otherwise, show them all
+        // Otherwise, show the big list view
         $this->echo_pmt_notif_page();
     }
 
+    public function echo_do_delete() {
+        wp_admin_notice(
+            __( 'Delete not yet implemented', 'pandamusrex-email-webhooks' ),
+                [ 'type' => 'error' ]
+        );
+    }
+
+    public function echo_do_update() {
+        wp_admin_notice(
+            __( 'Update not yet implemented', 'pandamusrex-email-webhooks' ),
+                [ 'type' => 'error' ]
+        );
+    }
+
+    // Big list view
     public function echo_pmt_notif_page() {
         echo '<div class="wrap">';
         echo '<h1 class="wp-heading-inline">';
@@ -180,6 +216,7 @@ class PandamusRex_Payment_Notifications_Admin {
         echo '</select>';
     }
 
+    // Single view
     public function echo_pmt_notif_edit_page( $notification_id ) {
         if ( $notification_id < 1 ) {
             wp_admin_notice(
@@ -213,7 +250,12 @@ class PandamusRex_Payment_Notifications_Admin {
             echo '</h1>';
             echo '<hr class="wp-header-end">';
 
-            echo '<form>';
+            echo '<form method="post">';
+                echo '<input type="hidden" name="action" id="action" value="do_update" />';
+                $nonce =  wp_create_nonce( 'notification-' . $id );
+                echo '<input type="hidden" name="notification_nonce" id="notification_nonce" value="' . esc_attr( $nonce ) . '" />';
+                echo '<input name="id" type="hidden" id="id" value="' . esc_attr( $notification_id ) . '">';
+
                 echo '<div id="poststuff">';
                     echo '<div id="post-body" class="metabox-holder columns-2">';
                         echo '<div id="post-body-content">';
