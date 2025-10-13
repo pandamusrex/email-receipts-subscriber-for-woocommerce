@@ -252,7 +252,7 @@ class PandamusRex_Payment_Notifications_Admin {
 
             echo '<form method="post">';
                 echo '<input type="hidden" name="action" id="action" value="do_update" />';
-                $nonce =  wp_create_nonce( 'notification-' . $id );
+                $nonce =  wp_create_nonce( 'notification-' . $notification_id );
                 echo '<input type="hidden" name="notification_nonce" id="notification_nonce" value="' . esc_attr( $nonce ) . '" />';
                 echo '<input name="id" type="hidden" id="id" value="' . esc_attr( $notification_id ) . '">';
 
