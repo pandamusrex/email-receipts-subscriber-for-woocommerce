@@ -99,6 +99,113 @@ class PandamusRex_Payment_Notifications_Admin {
             __( 'Update not yet implemented', 'pandamusrex-email-webhooks' ),
                 [ 'type' => 'error' ]
         );
+
+        // Check id (field is id in form)
+        // Check notification_nonce (notification-{id}) nonce
+        // Get order assignment (order_id in form)
+        // Get mark_order_complete
+
+        // Get id from POST
+        if ( ! isset( $_POST['id'] ) ) {
+            wp_admin_notice(
+                __( 'Invalid POST request - do_update action - no id in POST data', 'pandamusrex-email-webhooks' ),
+                [ 'type' => 'error' ]
+            );
+            return;
+        }
+
+        $notification_id = sanitize_text_field( $_POST['id'] );
+
+        // Check nonce in POST (notification-$id)
+        if ( ! wp_verify_nonce( $_POST['notification_nonce'], 'notification-' . $notification_id ) ) {
+            wp_admin_notice(
+                __( 'Invalid POST request - do_update action - bad nonce in POST data', 'pandamusrex-email-webhooks' ),
+                [ 'type' => 'error' ]
+            );
+            return;
+        }
+
+        $required_fields = [ 'order_id' ];
+        foreach ( $required_fields as $required_field ) {
+            if (! isset( $_POST[$required_field] ) ) {
+                wp_admin_notice(
+                    __( 'Invalid POST request - do_update action - incomplete POST data', 'pandamusrex-email-webhooks' ),
+                    [ 'type' => 'error' ]
+                );
+                return;
+            }
+        }
+
+        // Get the original notification
+        $notification = PandamusRex_Email_Webhooks_Db::get_notification_by_id( $notification_id );
+        if ( is_wp_error( $notification ) ) {
+            wp_admin_notice(
+                $notification->get_error_message(),
+                [ 'type' => 'error' ]
+            );
+            return;
+        }
+
+        // Get the form data
+        $order_id = intval( sanitize_text_field( $_POST['order_id'] ) );
+        $mark_order_complete = isset( $_POST['mark_order_complete'] );
+
+        // Process it all
+        // Is this a request to clear the assigned order for this email?
+        if ( $order_id == 0 ) {
+            // Had the email been assigned to an order?
+            if ( $notification[ 'order_id' ] != 0 ) {
+                $result = PandamusRex_Email_Webhooks_Db::update_webhook_order_id( $notification_id, 0 );
+                if (is_wp_error( $result ) ) {
+                    wp_admin_notice(
+                        __( 'Unable to update order', 'pandamusrex-email-webhooks' ),
+                        [ 'type' => 'error' ]
+                    );
+                } else {
+                    wp_admin_notice(
+                        __( 'Removed order assignment', 'pandamusrex-email-webhooks' ),
+                        [ 'type' => 'success' ]
+                    );
+                }
+            } else {
+                wp_admin_notice(
+                    __( 'No changes detected', 'pandamusrex-email-webhooks' ),
+                    [ 'type' => 'success' ]
+                );
+            }
+        } else {
+            // Does this represent a change to the assigned order for this email?
+            if ( $notification[ 'order_id' ] != $order_id ) {
+                $result = PandamusRex_Email_Webhooks_Db::update_webhook_order_id( $notification_id, $order_id );
+                if (is_wp_error( $result ) ) {
+                    wp_admin_notice(
+                        __( 'Unable to update order', 'pandamusrex-email-webhooks' ),
+                        [ 'type' => 'error' ]
+                    );
+                } else {
+                    if ( $mark_order_complete ) {
+                        $order = new WC_Order($order_id); 
+                        $order->update_status('completed');
+                        wp_admin_notice(
+                            __( 'Updated order assignment and updated order status to complete', 'pandamusrex-email-webhooks' ),
+                            [ 'type' => 'success' ]
+                        );
+                    } else {
+                        wp_admin_notice(
+                            __( 'Updated order assignment', 'pandamusrex-email-webhooks' ),
+                            [ 'type' => 'success' ]
+                        );
+                    }
+                }
+            } else {
+                wp_admin_notice(
+                    __( 'No changes detected', 'pandamusrex-email-webhooks' ),
+                    [ 'type' => 'success' ]
+                );
+            }
+        }
+
+        echo_pmt_notif_edit_page( $notification_id );
     }
 
     // Big list view
@@ -279,7 +386,7 @@ class PandamusRex_Payment_Notifications_Admin {
                             echo '<div id="postassignedorder" class="postbox">';
                                 echo '<div class="postbox-header">';
                                     echo '<h2 class="hndle">';
-                                    esc_html_e( 'Assigned to Order', 'pandamusrex-email-webhooks' );
+                                    esc_html_e( 'Assign to Order', 'pandamusrex-email-webhooks' );
                                     echo '</h2>';
                                 echo '</div>';
                                 echo '<div class="inside">';
