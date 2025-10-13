@@ -283,7 +283,13 @@ class PandamusRex_Payment_Notifications_Admin {
                                     echo '</h2>';
                                 echo '</div>';
                                 echo '<div class="inside">';
+                                    // Order Selector
                                     $this->echo_order_selector( $notification[ 'order_id' ] );
+                                    // Mark Order Paid Checkbox
+                                    echo '<input type="checkbox" id="mark_order_complete" name="mark_order_complete" value="1" checked />';
+                                    echo '<label for="mark_order_complete">';
+                                        esc_html_e( 'Set Order Status to Completed (Paid)', 'pandamusrex-email-webhooks' );
+                                    echo '</label>';
                                 echo '</div>';
                             echo '</div>';
                             echo '<div id="postemailcontent" class="postbox">';
