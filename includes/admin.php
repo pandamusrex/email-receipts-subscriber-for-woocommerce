@@ -285,6 +285,7 @@ class PandamusRex_Payment_Notifications_Admin {
                                 echo '<div class="inside">';
                                     // Order Selector
                                     $this->echo_order_selector( $notification[ 'order_id' ] );
+                                    echo '<br/>';
                                     // Mark Order Paid Checkbox
                                     echo '<input type="checkbox" id="mark_order_complete" name="mark_order_complete" value="1" checked />';
                                     echo '<label for="mark_order_complete">';
