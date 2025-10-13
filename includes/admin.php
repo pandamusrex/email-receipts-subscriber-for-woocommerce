@@ -205,7 +205,7 @@ class PandamusRex_Payment_Notifications_Admin {
             }
         }
 
-        echo_pmt_notif_edit_page( $notification_id );
+        $this->echo_pmt_notif_edit_page( $notification_id );
     }
 
     // Big list view

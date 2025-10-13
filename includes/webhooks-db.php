@@ -81,11 +81,15 @@ class PandamusRex_Email_Webhooks_Db {
 
         $data[ 'id' ] = $wpdb->insert_id;
 
-        PandamusRex_Email_Webhooks_History_Db::add_history_for_webhook(
+        $result = PandamusRex_Email_Webhooks_History_Db::add_history_for_webhook(
             $data[ 'id' ],
             0,
             __( 'Email added to database', 'pandamusrex-email-webhooks' )
         );
+
+        if ( false === $result ) {
+            return new WP_Error( 'pandamusrex-email-webhooks', $wpdb->last_error );
+        }
 
         return $data;
     }
@@ -119,13 +123,12 @@ class PandamusRex_Email_Webhooks_Db {
             __( 'Updated order ID to %d', 'pandamusrex-email-webhooks' ),
             $order_id
         );
-        PandamusRex_Email_Webhooks_History_Db::add_history_for_webhook(
-            $data[ 'id' ],
-            0,
-            $note
-        );
 
-        return true;
+        return PandamusRex_Email_Webhooks_History_Db::add_history_for_webhook(
+            $webhook_id, // webhook id
+            0,           // user id
+            $note        // note
+        );
     }
 
     public static function delete_webhook( $webhook_id ) {
